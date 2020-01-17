@@ -1,7 +1,13 @@
+list.of.packages <- c("DT","data.table","dplyr","tidyverse")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages, dependencies = TRUE)
+
 library(DT)
 library(data.table)
 library(dplyr)
 library(tidyverse)
+
+
 server <- function(input, output) {
   
 data_summary_week<-fread('data_summary_week.csv') 
