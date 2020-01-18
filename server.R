@@ -25,15 +25,28 @@ data_summary<-fread('data_summary.csv')
  })
  
  data.s_7 <- ts(data_summary$Cena, frequency = 7)
- Holt_7<-HoltWinters(data.s_7, beta = 0, gamma = 0)
+ Holt_7<-HoltWinters(data.s_7, beta = 0, gamma = 0.4)
  
- output$holt<-renderPrint({
-   Holt_7$SSE
+
+ lag.length=25
+ stacjonarnosc<-Box.test(data.s_7, lag=lag.length, type="Ljung-Box")
+ 
+ output$stacjonarnosc<-renderPrint({
+   stacjonarnosc
+ })
+ 
+ fitARIMA <- arima(data.s1, order=c(0,1,1),seasonal = list(order = c(2,1,2), period = 7),method="ML")
+ stacjanornoscARIMA<-Box.test(residuals(fitARIMA), lag=25, type="Ljung-Box")
+ 
+ output$stacjonarnosc_reszt<-renderPrint({
+   stacjanornoscARIMA
  })
  
  output$plot_holt<-renderPlot({
    plot(Holt_7)
  })
+ 
+
  
  output$plot <- renderPlot({
    data_summary<-data_summary
