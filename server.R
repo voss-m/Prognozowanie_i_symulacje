@@ -35,7 +35,7 @@ data_summary<-fread('data_summary.csv')
    stacjonarnosc
  })
  
- fitARIMA <- arima(data.s1, order=c(0,1,1),seasonal = list(order = c(2,1,2), period = 7),method="ML")
+ fitARIMA <- arima(data.s_7, order=c(0,1,1),seasonal = list(order = c(2,1,2), period = 7),method="ML")
  stacjanornoscARIMA<-Box.test(residuals(fitARIMA), lag=25, type="Ljung-Box")
  
  output$stacjonarnosc_reszt<-renderPrint({
